@@ -22,7 +22,7 @@ class Settings(BaseSettings):
         default="mydb", description="Database name", alias="DATABASE_NAME"
     )
 
-    _client: AsyncIOMotorClient
+    _client: AsyncIOMotorClient | None = None
 
     class Config:
         env_file = Path(__file__).parent.parent.parent / ".env"
