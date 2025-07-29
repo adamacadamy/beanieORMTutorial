@@ -88,7 +88,6 @@ async def update(
 
 
 async def delete(
-    update_data: dict[str, any],
     item_id: str | PydanticObjectId = None,
     filters: dict[str, any] = None,
 ):
