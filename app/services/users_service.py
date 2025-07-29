@@ -57,11 +57,45 @@ async def update(
     filters: dict[str, any] = None,
     update_data: dict[str, any] | None = None,
     update_method: str | None = None,
-): ...
+) -> bool:
+    if update_method:
+        user = await User.find_one(id=item_id)
+        if user:
+            """
+            func
+             ||
+            @before_event([Insert, Update])
+            async def update_timestamp(self):
+                self.updated_at = datetime.now(tz=UTC)
+
+            """
+            # getattr(user, update_method)()
+            # user.update_method()
+            func = getattr(user, update_method)
+            await func()
+            result = user
+    if update_data:
+        result = await User.find_one(id=item_id).update(
+            {"$set": update_data},
+        )
+
+    if filters:
+        result = await User.find_many(filters).update_many(
+            {"$set": update_data},
+        )
+
+        return bool(result)
 
 
 async def delete(
     update_data: dict[str, any],
     item_id: str | PydanticObjectId = None,
     filters: dict[str, any] = None,
-): ...
+):
+    if item_id:
+        result = await User.find_one(id=item_id).delete()
+
+    if filters:
+        result = await User.find_many(filters).delete_many()
+
+    return bool(result)
