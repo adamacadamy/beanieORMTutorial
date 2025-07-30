@@ -1,20 +1,20 @@
 from beanie import PydanticObjectId
 
-from app.models import User
+from app.models import Comment
 from app.schemas import PaginationResponse
 from app.services import base_crud_services
 
 
 async def get(
     page: int = 1, limit: int = 10, filters: dict[str, any] | None = None
-) -> PaginationResponse[User]:
-    return await base_crud_services.get(User, page, limit, filters)
+) -> PaginationResponse[Comment]:
+    return await base_crud_services.get(Comment, page, limit, filters)
 
 
 async def create(
     obj_in: dict[str, any] | list[dict[str, any]],
-) -> User | list[User] | None:
-    return await base_crud_services.create(User, obj_in)
+) -> Comment | list[Comment] | None:
+    return await base_crud_services.create(Comment, obj_in)
 
 
 async def update(
@@ -24,7 +24,7 @@ async def update(
     update_method: str | None = None,
 ) -> bool:
     return await base_crud_services.update(
-        User, item_id, filters, update_data, update_method
+        Comment, item_id, filters, update_data, update_method
     )
 
 
@@ -32,7 +32,4 @@ async def delete(
     item_id: str | PydanticObjectId = None,
     filters: dict[str, any] = None,
 ) -> bool:
-    return await base_crud_services.delete(User, item_id, filters)
-
-
-# implement class based generic service that inherits from the base class curd service
+    return await base_crud_services.delete(Comment, item_id, filters)
