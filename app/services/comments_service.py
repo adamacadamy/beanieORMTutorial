@@ -33,3 +33,9 @@ async def delete(
     filters: dict[str, any] = None,
 ) -> bool:
     return await base_crud_services.delete(Comment, item_id, filters)
+
+
+# implement class based generic service that inherits from the base class curd service
+class CommentCrudService(base_crud_services.BaseCrudService):
+    def __init__(self):
+        super().__init__(model=Comment)

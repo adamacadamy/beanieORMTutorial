@@ -36,3 +36,6 @@ async def delete(
 
 
 # implement class based generic service that inherits from the base class curd service
+class ArticleCrudService(base_crud_services.BaseCrudService):
+    def __init__(self):
+        super().__init__(model=Article)
