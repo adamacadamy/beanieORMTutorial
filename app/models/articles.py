@@ -5,6 +5,11 @@ from typing import TYPE_CHECKING, ClassVar
 from beanie import BackLink, Document, Insert, Link, Update, before_event
 from pydantic import Field, field_validator
 
+from app.core import log_cfg
+
+# __name__ = article.py
+logger = log_cfg.configure_logger(__name__)
+
 if TYPE_CHECKING:
     from .comments import Comment
     from .users import User
@@ -39,6 +44,7 @@ class Article(Document):
 
     @before_event([Insert, Update])
     async def update(self) -> None:
+        logger.info(f"article {self.id} getting updated ...")
         self.updated_at = datetime.now(tz=UTC)
 
         if self.status == ArticleStatus.PUBLISHED and not self.published_at:
